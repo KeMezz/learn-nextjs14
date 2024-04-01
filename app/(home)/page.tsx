@@ -9,6 +9,7 @@ async function getMovies() {
 }
 
 export default async function HomePage() {
+  await new Promise((resolve) => setTimeout(resolve, 5000));
   const movies = await getMovies();
   return <div>{JSON.stringify(movies)}</div>;
 }
