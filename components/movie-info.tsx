@@ -20,12 +20,18 @@ export default async function MovieInfo({ id }: { id: string }) {
         <a href={movie.homepage} target="_blank">
           🔗 Homepage &rarr;
         </a>
-        <Link href={`/movies/${id}/credits`}>😎 Credits &rarr;</Link>
+        <Link prefetch href={`/movies/${id}/credits`}>
+          😎 Credits &rarr;
+        </Link>
         {providers["US"] ? (
-          <Link href={`/movies/${id}/providers`}>🏢 Providers &rarr;</Link>
+          <Link prefetch href={`/movies/${id}/providers`}>
+            🏢 Providers &rarr;
+          </Link>
         ) : null}
         {similarMovies.length ? (
-          <Link href={`/movies/${id}/similar`}>🎬 Similar Movies &rarr;</Link>
+          <Link prefetch href={`/movies/${id}/similar`}>
+            🎬 Similar Movies &rarr;
+          </Link>
         ) : null}
       </div>
     </div>
