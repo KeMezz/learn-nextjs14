@@ -1,5 +1,5 @@
+import { getProviders } from "@/apis/api";
 import Provider from "@/components/provider";
-import { API_URL } from "../../../(home)/page";
 import styles from "@/styles/providers.module.css";
 
 export interface IProvider {
@@ -7,11 +7,6 @@ export interface IProvider {
   provider_id: number;
   provider_name: string;
   display_priority: number;
-}
-
-export async function getProviders(id: string) {
-  const response = await fetch(`${API_URL}/${id}/providers`);
-  return await response.json();
 }
 
 export default async function ProvidersPage({ params: { id } }) {

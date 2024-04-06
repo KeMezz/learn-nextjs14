@@ -1,13 +1,7 @@
-import styles from "../styles/movie-info.module.css";
-import { API_URL } from "../app/(home)/page";
+import { getMovie, getProviders, getSimilarMovies } from "@/apis/api";
+import styles from "@/styles/movie-info.module.css";
 import Link from "next/link";
-import { getSimilarMovies } from "../app/movies/[id]/similar/page";
-import { getProviders } from "../app/movies/[id]/providers/page";
 
-export async function getMovie(id: string) {
-  const response = await fetch(`${API_URL}/${id}`);
-  return await response.json();
-}
 export default async function MovieInfo({ id }: { id: string }) {
   const movie = await getMovie(id);
   const similarMovies = await getSimilarMovies(id);

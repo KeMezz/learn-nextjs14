@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import styles from "../styles/movie.module.css";
+import styles from "@/styles/movie.module.css";
 import { useRouter } from "next/navigation";
 
 interface MovieProps {
+  key: number;
   poster_path: string;
   title: string;
   id: number;
