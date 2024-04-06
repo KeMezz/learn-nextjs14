@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.container img {
+  background-color: #666;
+  border-radius: 8px;
+  max-width: 100px;
+  min-height: 150px;
+  place-self: center;
+}
+
+.desc {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.4;
+}
+
+.desc h3 {
+  font-weight: bold;
+}
+
+.desc h5 {
+  font-size: 14px;
+}
+
+.desc p {
+  font-size: 14px;
+  color: #666;
+}
