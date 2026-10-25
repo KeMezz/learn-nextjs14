@@ -1,3 +1,5 @@
+import { cache as reactCache } from "react";
+
 export const API_URL = "https://nomad-movies.nomadcoders.workers.dev/movies";
 
 export interface MovieSummary {
@@ -79,10 +81,19 @@ async function request<T>(path: string, validate: Validator<T>): Promise<ApiResu
   }
 }
 
+// React cache provides per-request / per-render memoization across components
+// (e.g. generateMetadata and MovieInfo) without retaining stale data across requests.
+// When running outside React server component renderers (such as unit test runners),
+// fallback gracefully to an unmemoized identity function.
+const cache =
+  typeof reactCache === "function"
+    ? reactCache
+    : <T extends (...args: any[]) => any>(fn: T): T => fn;
+
 const segment = (id: string) => encodeURIComponent(id);
-export const getMovies = () => request("", list(movie));
-export const getCredits = (id: string) => request(`/${segment(id)}/credits`, list(credit));
-export const getProviders = (id: string) => request(`/${segment(id)}/providers`, providers);
-export const getSimilarMovies = (id: string) => request(`/${segment(id)}/similar`, list(movie));
-export const getMovie = (id: string) => request(`/${segment(id)}`, details);
-export const getVideos = (id: string) => request(`/${segment(id)}/videos`, list(video));
+export const getMovies = cache(() => request("", list(movie)));
+export const getCredits = cache((id: string) => request(`/${segment(id)}/credits`, list(credit)));
+export const getProviders = cache((id: string) => request(`/${segment(id)}/providers`, providers));
+export const getSimilarMovies = cache((id: string) => request(`/${segment(id)}/similar`, list(movie)));
+export const getMovie = cache((id: string) => request(`/${segment(id)}`, details));
+export const getVideos = cache((id: string) => request(`/${segment(id)}/videos`, list(video)));
