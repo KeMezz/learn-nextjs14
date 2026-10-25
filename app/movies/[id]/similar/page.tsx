@@ -2,7 +2,12 @@ import Movie from "@/components/movie";
 import styles from "@/styles/similar.module.css";
 import { getMovie, getSimilarMovies } from "@/apis/api";
 
-export default async function SimilarPage({ params: { id } }) {
+export default async function SimilarPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   const movie = await getMovie(id);
   const similarMovies = await getSimilarMovies(id);
 

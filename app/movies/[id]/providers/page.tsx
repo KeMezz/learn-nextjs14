@@ -9,7 +9,12 @@ export interface IProvider {
   display_priority: number;
 }
 
-export default async function ProvidersPage({ params: { id } }) {
+export default async function ProvidersPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   const providers = await getProviders(id);
   const usProviders = providers["US"];
   if (!usProviders)

@@ -2,7 +2,12 @@ import { getCredits } from "@/apis/api";
 import Credit, { CreditProps } from "@/components/credit";
 import styles from "@/styles/credits.module.css";
 
-export default async function CreditsPage({ params: { id } }) {
+export default async function CreditsPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   const credits = await getCredits(id);
   return (
     <section className={styles.container}>
