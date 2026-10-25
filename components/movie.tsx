@@ -4,21 +4,16 @@ import Link from "next/link";
 import styles from "@/styles/movie.module.css";
 import { useRouter } from "next/navigation";
 
-interface MovieProps {
-  key: number;
-  poster_path: string;
-  title: string;
-  id: number;
-}
+import type { MovieSummary } from "@/apis/api";
 
-export default function Movie({ poster_path, title, id }: MovieProps) {
+export default function Movie({ poster_path, title, id }: MovieSummary) {
   const router = useRouter();
   const navigateToMovieDetail = () => {
     router.push(`/movies/${id}`);
   };
   return (
     <div className={styles.movie}>
-      <img src={poster_path} alt={title} onClick={navigateToMovieDetail} />
+      {poster_path ? <img src={poster_path} alt={title} onClick={navigateToMovieDetail} /> : null}
       <Link prefetch href={`/movies/${id}`}>
         {title}
       </Link>

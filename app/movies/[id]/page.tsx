@@ -11,9 +11,9 @@ interface Params {
 
 export async function generateMetadata({ params }: Params) {
   const { id } = await params;
-  const movie = await getMovie(id);
+  const result = await getMovie(id);
   return {
-    title: movie.title,
+    title: result.ok ? result.data.title : "Movie unavailable",
   };
 }
 
