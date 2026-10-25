@@ -4,19 +4,21 @@ import MovieVideos from "@/components/movie-videos";
 import { getMovie } from "@/apis/api";
 
 interface Params {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export async function generateMetadata({ params: { id } }: Params) {
-  const movie = await getMovie(id);
+export async function generateMetadata({ params }: Params) {
+  const { id } = await params;
+  const result = await getMovie(id);
   return {
-    title: movie.title,
+    title: result.ok ? result.data.title : "Movie unavailable",
   };
 }
 
-export default async function MovieDetail({ params: { id } }: Params) {
+export default async function MovieDetail({ params }: Params) {
+  const { id } = await params;
   return (
     <div>
       <Suspense fallback={<h1>Loading movie info</h1>}>

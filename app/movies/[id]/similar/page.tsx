@@ -1,28 +1,18 @@
 import Movie from "@/components/movie";
+import MovieStatus from "@/components/movie-status";
 import styles from "@/styles/similar.module.css";
 import { getMovie, getSimilarMovies } from "@/apis/api";
 
-export default async function SimilarPage({ params: { id } }) {
-  const movie = await getMovie(id);
-  const similarMovies = await getSimilarMovies(id);
-
-  if (!similarMovies.length) {
-    return <div className={styles.container}>No Similar Movies Found</div>;
-  }
-
+export default async function SimilarPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const [movie, result] = await Promise.all([getMovie(id), getSimilarMovies(id)]);
+  const retryHref = `/movies/${id}/similar`;
+  if (result.ok === false) return <MovieStatus subject="Similar movies" retryHref={retryHref} />;
+  if (!result.data.length) return <MovieStatus subject="similar movies" retryHref={retryHref} empty />;
   return (
     <div className={styles.container}>
-      <h2>Simillar with {movie.title}</h2>
-      <div className={styles.movies}>
-        {similarMovies.map((movie) => (
-          <Movie
-            key={movie.id}
-            id={movie.id}
-            title={movie.title}
-            poster_path={movie.poster_path}
-          />
-        ))}
-      </div>
+      <h2>{movie.ok ? `Similar to ${movie.data.title}` : "Similar movies"}</h2>
+      <div className={styles.movies}>{result.data.map((movie) => <Movie key={movie.id} {...movie} />)}</div>
     </div>
   );
 }

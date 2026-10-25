@@ -1,24 +1,11 @@
 import styles from "@/styles/credit.module.css";
 
-export interface CreditProps {
-  adult: boolean;
-  gender: number;
-  id: number;
-  known_for_department: string;
-  name: string;
-  original_name: string;
-  popularity: number;
-  profile_path: string;
-  cast_id: number;
-  character: string;
-  credit_id: string;
-  order: number;
-}
+import type { CreditData } from "@/apis/api";
 
-export default function Credit(credit: CreditProps) {
+export default function Credit(credit: CreditData) {
   return (
     <div className={styles.container}>
-      <img src={credit.profile_path} alt={credit.name} />
+      {credit.profile_path ? <img src={credit.profile_path} alt={credit.name} /> : null}
       <div className={styles.desc}>
         <h3>{credit.name}</h3>
         <h5>{credit.character}</h5>

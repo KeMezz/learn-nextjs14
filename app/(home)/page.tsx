@@ -1,24 +1,18 @@
 import { getMovies } from "@/apis/api";
 import Movie from "@/components/movie";
+import MovieStatus from "@/components/movie-status";
 import styles from "@/styles/home.module.css";
 
-export const metadata = {
-  title: "Home",
-};
+export const dynamic = "force-dynamic";
+export const metadata = { title: "Home" };
 
 export default async function HomePage() {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const movies = await getMovies();
+  const result = await getMovies();
+  if (result.ok === false) return <MovieStatus subject="Movies" retryHref="/" />;
+  if (!result.data.length) return <MovieStatus subject="movies" retryHref="/" empty />;
   return (
     <div className={styles.container}>
-      {movies.map((movie) => (
-        <Movie
-          key={movie.id}
-          id={movie.id}
-          title={movie.title}
-          poster_path={movie.poster_path}
-        />
-      ))}
+      {result.data.map((movie) => <Movie key={movie.id} {...movie} />)}
     </div>
   );
 }
